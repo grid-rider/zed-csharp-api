@@ -45,7 +45,7 @@ $( document ).ready(function() {
                 $(this).addClass("childSubMenuHidden")
             })
         }*/
-        
+
         //Remove 'Module' from module names
         if(!renameModulesDone){
             $(".children_ul > li > .item > .label > a").each(function(){
@@ -79,7 +79,7 @@ $( document ).ready(function() {
             $(this).text(title);
         }
     });
-    //Remove 'Reference' from page title 
+    //Remove 'Reference' from page title
     var title = document.title;
     if(title.includes("|")){
         var titleArray = title.split("|");
@@ -92,11 +92,13 @@ $( document ).ready(function() {
         if(titleArray[0].endsWith(" Class ")){
             titleArray[0] = titleArray[0].replace(" Class", "");
         }
-        
+
         title = titleArray.join("|");
         var url = window.location.href;
         if(url.includes("python"))
             title = title.replace(" API Reference ", " Python API Reference ")
+        else if (url.includes("csharp"))
+            title = title.replace(" API Reference ", " C# API Reference ")
         else
             title = title.replace(" API Reference ", " C++ API Reference ")
         document.title = title;
@@ -105,10 +107,18 @@ $( document ).ready(function() {
     var url = window.location.href;
     if(url.includes("python")){
         $("#subMenuCpp").removeClass("nav-links-selected");
+        $("#subMenuCSharp").removeClass("nav-links-selected");
         $("#subMenuPython").addClass("nav-links-selected");
+    }
+    else if (url.includes("csharp"))
+    {
+        $("#subMenuCSharp").addClass("nav-links-selected");
+        $("#subMenuCpp").removeClass("nav-links-selected");
+        $("#subMenuPython").removeClass("nav-links-selected");
     }
     else {
         $("#subMenuCpp").addClass("nav-links-selected");
+        $("#subMenuCSharp").removeClass("nav-links-selected");
         $("#subMenuPython").removeClass("nav-links-selected");
     }
 });

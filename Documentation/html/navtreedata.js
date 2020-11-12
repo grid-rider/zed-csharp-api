@@ -28,7 +28,9 @@ var NAVTREE =
     [ "Main class : Camera", "classsl_1_1Camera.html", null ],
     [ "Modules", "modules.html", "modules" ],
     [ "All Classes", "annotated.html", "annotated" ],
-    [ "Changelog", "md_release-notes.html", null ]
+    [ "Changelog", "md_release-notes.html", null ],
+    [ "Migration Guide to 3.0", "^https://www.stereolabs.com/developers/release/3.0/migration-guide/", null ],
+    [ "ZED SDK 2 legacy API", "^https://www.stereolabs.com/docs/api_2.X/index.html", null ]
   ] ]
 ];
 
