@@ -1,44 +1,13 @@
-# Tutorial 8: Body tracking
+# Tutorial 9: Spatial mapping
 
-This tutorial shows how to use the body tracking feature.
-It will draw skeletons on detected people and display the image on a OpenGL.net window.
+This sample shows how to capture a real-time 3D map of the scene with the ZED API. It demonstrates how to:
+- Start spatial mapping to capture the surrounding area.
+- Display the live reconstruction as a wireframe mesh over the image using OpenGL.
+- Process and save the mesh in OBJ format.
+- Use the lower-level API to asynchronously capture, update and display the mesh.
+- Access and retrieve chunks of the entire mesh.
 
-We assume that you have read the tutorial 1 and successfully opened your ZED.
+## Getting started
 
-# Code overview
-## Create a camera
-
-As with previous tutorial, we create, configure and open the ZED. Here we show how to set a resolution and a framerate. 
-
-If you want to use the SVO input, you need to specify both the Input type and the SVO file path  : 
-
-```
- init_params.inputType = sl.INPUT_TYPE.INPUT_TYPE_SVO;
- init_params.pathSVO =  "D:/mySVOfile.svo";
- ```
-
- ## Enable Body tracking
-
- Once the camera is opened, we must enable body tracking feature to retrieve the detected persons and their 3D skeleton.
- If we want body tracking, we also need to enable position tracking in order to be able to track objects with a moving camera.
-
- ```
-Quaternion quat = Quaternion.Identity;
-Vector3 vec = Vector3.Zero;
-
-// Enable Tracking
-err = zedCamera.EnableTracking(ref quat, ref vec);
-if (err != ERROR_CODE.SUCCESS)
-    Environment.Exit(-1);
-
-
-// Enable Object Detection
-dll_ObjectDetectionParameters object_detection_parameters = new dll_ObjectDetectionParameters();
-object_detection_parameters.detectionModel = sl.DETECTION_MODEL.HUMAN_BODY_ACCURATE;
-object_detection_parameters.enableObjectTracking = true;
-err = zedCamera.EnableObjectsDetection(ref object_detection_parameters);
-if (err != ERROR_CODE.SUCCESS)
-    Environment.Exit(-1);
-```
-
-The only difference with using the Object detection feature is the **Detection Model** parameter. It has to be set to either HUMAN_BODY_FAST or HUMAN_BODY_ACCURATE in order to enable body tracking.
+- First, download the latest version of the ZED SDK on [stereolabs.com](https://www.stereolabs.com).
+- For more information, read the ZED [API documentation](https://www.stereolabs.com/developers/documentation/API/).
