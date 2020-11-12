@@ -5,7 +5,6 @@ project(Stereolabs.zed CSharp)
 # Add source to project
 add_library(${PROJECT_NAME} SHARED
     src/ZEDCamera.cs
-    src/ZEDCameraSettings.cs
     src/ZEDCommon.cs
     src/ZEDMat.cs
 )
@@ -42,6 +41,3 @@ if (WIN32)
 	## Install C interface sl_zed_interface.dll in C:/Program Files/ZED SDK/bin/
 	INSTALL(FILES  "${CMAKE_CURRENT_SOURCE_DIR}/../Resources/sl_zed_interface.dll" DESTINATION ${DIR_ZED_SDK_BINAIRIES})
 endif(WIN32)
-
-
-

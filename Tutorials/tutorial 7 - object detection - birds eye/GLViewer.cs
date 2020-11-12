@@ -92,7 +92,7 @@ class GLViewer
         available = true;
     }
 
-    public void update(ZEDMat image, ObjectsFrameSDK objects, sl.Pose pose)
+    public void update(Mat image, Objects objects, sl.Pose pose)
     {
         pointCloud.pushNewPC(image);
 
@@ -107,20 +107,20 @@ class GLViewer
         // For each object
         for (int idx = 0; idx < objects.numObject; idx++)
         {
-            sl.ObjectDataSDK obj = objects.objectData[idx];
+            sl.ObjectData obj = objects.objectData[idx];
 
             // Only show tracked objects
             if (renderObject(obj))
             {
                 List<Vector3> bb_ = new List<Vector3>();
-                bb_.AddRange(obj.worldBoundingBox);
+                bb_.AddRange(obj.boundingBox);
                 float4 clr_id = generateColorClass(obj.id);
-                float4 clr_class = generateColorClass((int)obj.objectClass);
+                float4 clr_class = generateColorClass((int)obj.label);
 
-                if (obj.objectTrackingState != sl.OBJECT_TRACK_STATE.OK)
+                if (obj.objectTrackingState != sl.OBJECT_TRACKING_STATE.OK)
                     clr_id = clr_class;
                 else
-                    createIDRendering(obj.rootWorldPosition, clr_id, obj.id);
+                    createIDRendering(obj.position, clr_id, obj.id);
 
                 createBboxRendering(bb_, clr_id);
             }
@@ -285,8 +285,8 @@ class GLViewer
         return color;
     }
 
-    bool renderObject(ObjectDataSDK i) {
-        return (i.objectTrackingState == OBJECT_TRACK_STATE.OK || i.objectTrackingState == OBJECT_TRACK_STATE.OFF);
+    bool renderObject(ObjectData i) {
+        return (i.objectTrackingState == OBJECT_TRACKING_STATE.OK || i.objectTrackingState == OBJECT_TRACKING_STATE.OFF);
     }
 
     private void setRenderCameraProjection(CameraParameters camParams, float znear, float zfar)
@@ -429,7 +429,7 @@ class ImageHandler
         Gl.BindTexture(TextureTarget.Texture2d, 0);
     }
 
-    public void pushNewImage(ZEDMat zedImage)
+    public void pushNewImage(Mat zedImage)
     {
         // Update Texture with current zedImage
         Gl.TexSubImage2D(TextureTarget.Texture2d, 0, 0, 0, zedImage.GetWidth(), zedImage.GetHeight(), PixelFormat.Rgba, PixelType.UnsignedByte, zedImage.GetPtr());
@@ -473,7 +473,7 @@ class PointCloud
     public PointCloud()
     {
         shader = new ShaderData();
-        mat_ = new ZEDMat();
+        mat_ = new Mat();
     }
 
     void close()
@@ -495,14 +495,14 @@ class PointCloud
         shader.it = new Shader(Shader.POINTCLOUD_VERTEX_SHADER, Shader.POINTCLOUD_FRAGMENT_SHADER);
         shader.MVP_Mat = Gl.GetUniformLocation(shader.it.getProgramId(), "u_mvpMatrix");
 
-        mat_.Create(res, sl.MAT_TYPE.MAT_32F_C4, MEM.MEM_CPU);
+        mat_.Create(res, sl.MAT_TYPE.MAT_32F_C4, MEM.CPU);
     }
 
-    public void pushNewPC(ZEDMat matXYZRGBA)
+    public void pushNewPC(Mat matXYZRGBA)
     {
         if (mat_.IsInit())
         {
-            mat_.SetFrom(matXYZRGBA, COPY_TYPE.COPY_TYPE_CPU_CPU);
+            mat_.SetFrom(matXYZRGBA, COPY_TYPE.CPU_CPU);
         }
     }
 
@@ -525,7 +525,7 @@ class PointCloud
     }
     uint bufferGLID_;
 
-    ZEDMat mat_;
+    Mat mat_;
     ShaderData shader;
 };
 

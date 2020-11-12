@@ -28,7 +28,7 @@ namespace Image_capture
         private CancellationTokenSource tokenSource = new CancellationTokenSource();
         private VIEW view = VIEW.LEFT;
         private RuntimeParameters runtimeParameters = new RuntimeParameters();
-        private ZEDCamera zedCamera = new ZEDCamera(0);
+        private Camera zedCamera = new Camera(0);
         bool isRunning = false;
 
         private void control_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -50,18 +50,18 @@ namespace Image_capture
             init_params.resolution = RESOLUTION.HD1080;
  
             // Open the camera
-            ERROR_CODE err = zedCamera.Init(ref init_params);
+            ERROR_CODE err = zedCamera.Open(ref init_params);
             if (err != ERROR_CODE.SUCCESS)
                 Environment.Exit(-1);
 
         
             // Create a ZEDMat to handle the images
-            ZEDMat zedMat = new ZEDMat();
+            Mat zedMat = new Mat();
             int Height = zedCamera.ImageHeight;
             int Width = zedCamera.ImageWidth;
 
             Resolution res = new Resolution((uint)Width, (uint)Height);
-            zedMat.Create(res, MAT_TYPE.MAT_8U_C4, MEM.MEM_CPU);
+            zedMat.Create(res, MAT_TYPE.MAT_8U_C4, MEM.CPU);
 
             // Create a writeable bitmap to handle the image we need to show
             WriteableBitmap writeableBitmap = new WriteableBitmap(Width, Height, 96, 96, PixelFormats.Bgra32, null);
@@ -83,7 +83,7 @@ namespace Image_capture
                     {
                         // A new image is available if grab() returns ERROR_CODE::SUCCESS                        
                         if (zedMat.IsInit())
-                            err = zedCamera.RetrieveImage(zedMat, view, MEM.MEM_CPU, res);
+                            err = zedCamera.RetrieveImage(zedMat, view, MEM.CPU, res);
                          
                         if (err == ERROR_CODE.SUCCESS)
                         {
@@ -107,7 +107,7 @@ namespace Image_capture
              }, tokenSource.Token);
         }
 
-        byte[] ZEDMat2ByteArray(ZEDMat zedMat)
+        byte[] ZEDMat2ByteArray(Mat zedMat)
         {
             int size = zedMat.GetWidth() * zedMat.GetHeight() * 4;
             byte[] Pixels = new byte[size];
