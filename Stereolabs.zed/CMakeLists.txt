@@ -30,8 +30,6 @@ set_property(TARGET ${PROJECT_NAME} PROPERTY VS_DOTNET_REFERENCES
         "System"
         "System.Numerics"
 )
-
-
 ## INSTALL into resources folder
 
 if (WIN32)

@@ -170,7 +170,7 @@ namespace sl
         private void close()
         {
             zedCamera.DisablePositionalTracking();
-            zedCamera.DisableObjectsDetection();
+            zedCamera.DisableObjectDetection();
             zedCamera.Close();
             viewer.exit();
         }

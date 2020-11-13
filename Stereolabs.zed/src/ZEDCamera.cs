@@ -2244,7 +2244,7 @@ namespace sl
         /// Enable object detection module
         /// </summary>
         /// <returns> returns an ERROR_CODE that indicates the type of error </returns>
-        public sl.ERROR_CODE EnableObjectsDetection(ref ObjectDetectionParameters od_params)
+        public sl.ERROR_CODE EnableObjectDetection(ref ObjectDetectionParameters od_params)
         {
             sl.ERROR_CODE objDetectStatus = ERROR_CODE.FAILURE;
             lock (grabLock)
@@ -2258,7 +2258,7 @@ namespace sl
         /// <summary>
         /// Disable object detection module and release the resources.
         /// </summary>
-        public void DisableObjectsDetection()
+        public void DisableObjectDetection()
         {
             lock (grabLock)
             {
@@ -2270,7 +2270,7 @@ namespace sl
         /// Pause or Unpause the object detection
         /// </summary>
         /// <param name="status"></param>
-        public void PauseObjectsDetection(bool status)
+        public void PauseObjectDetection(bool status)
         {
             lock (grabLock)
             {
@@ -2282,7 +2282,7 @@ namespace sl
         /// Retrieve object detection data 
         /// </summary>
         /// <param name="od_params"> Object detection runtime parameters </param>
-        /// <param name="objFrame"> ObjectsFrameSDK that contains all the detection data </param>
+        /// <param name="objFrame"> Objects that contains all the detection data </param>
         /// <returns> returns an ERROR_CODE that indicates the type of error </returns>
         public sl.ERROR_CODE RetrieveObjects(ref Objects objs, ref ObjectDetectionRuntimeParameters od_params)
         {
